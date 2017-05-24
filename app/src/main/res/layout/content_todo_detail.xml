@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+        <variable
+            name="todo"
+            type="com.phamsang.example.todo_android_architecture_components.models.Todo"/>
+    </data>
+
+    <LinearLayout
+        android:orientation="vertical"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:context="com.phamsang.example.todo_android_architecture_components.ui.TodoDetailActivity"
+        tools:showIn="@layout/activity_todo_detail">
+
+        <EditText
+            android:id="@+id/title"
+            android:text="@{todo.title}"
+            android:padding="8dp"
+            android:hint="Title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <EditText
+            android:text="@{todo.content}"
+            android:id="@+id/content"
+            android:hint="Content..."
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <CheckBox
+            android:id="@+id/checkbox"
+            android:checked="@{todo.done}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+
+    </LinearLayout>
+</layout>
+

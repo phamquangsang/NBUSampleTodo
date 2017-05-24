@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">todo-android-architecture-components</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_todo_detail">TodoDetailActivity</string>
+</resources>
