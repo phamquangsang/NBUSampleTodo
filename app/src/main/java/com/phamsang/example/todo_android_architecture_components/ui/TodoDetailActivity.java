@@ -4,15 +4,20 @@ import android.arch.lifecycle.LifecycleRegistry;
 import android.arch.lifecycle.LifecycleRegistryOwner;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.databinding.DataBindingUtil;
 import android.graphics.Color;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.phamsang.example.todo_android_architecture_components.R;
 import com.phamsang.example.todo_android_architecture_components.databinding.ActivityTodoDetailBinding;
@@ -24,6 +29,7 @@ public class TodoDetailActivity extends AppCompatActivity implements LifecycleRe
     private static final String TAG = TodoDetailActivity.class.getSimpleName();
     LifecycleRegistry lifecycleRegistry = new LifecycleRegistry(this);
     private String mTodoId;
+    private BroadcastReceiver mReceiver;
 
     @Override
     public LifecycleRegistry getLifecycle() {
@@ -80,6 +86,33 @@ public class TodoDetailActivity extends AppCompatActivity implements LifecycleRe
                 finish();
             }
         });
+
+        registerNetworkChange(this);
+    }
+
+    private void registerNetworkChange(Context todoDetailActivity) {
+        IntentFilter intentFilter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+        mReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                ConnectivityManager cm =
+                        (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+                NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+                boolean isConnected = activeNetwork != null &&
+                        activeNetwork.isConnectedOrConnecting();
+
+                getResources().getStringArray(R.array.color_list);
+                Toast.makeText(context, "network changed isCOnnected = "+isConnected, Toast.LENGTH_SHORT).show();
+            }
+        };
+        todoDetailActivity.registerReceiver(mReceiver, intentFilter);
+    }
+
+    @Override
+    protected void onDestroy() {
+        unregisterReceiver(mReceiver);
+        super.onDestroy();
     }
 
     public static interface OnSaveButtonClicked{

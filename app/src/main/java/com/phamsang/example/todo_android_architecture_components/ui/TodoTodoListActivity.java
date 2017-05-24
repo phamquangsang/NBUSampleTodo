@@ -4,20 +4,22 @@ import android.arch.lifecycle.LifecycleRegistry;
 import android.arch.lifecycle.LifecycleRegistryOwner;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.databinding.DataBindingUtil;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.phamsang.example.todo_android_architecture_components.R;
 import com.phamsang.example.todo_android_architecture_components.databinding.ActivityTodoListBinding;
-import com.phamsang.example.todo_android_architecture_components.models.Todo;
+import com.phamsang.example.todo_android_architecture_components.lifecycleawarecomponent.BroadCastReceiverLifecyle;
 import com.phamsang.example.todo_android_architecture_components.viewmodels.TodoListViewModel;
 
 public class TodoTodoListActivity extends AppCompatActivity
@@ -27,6 +29,7 @@ public class TodoTodoListActivity extends AppCompatActivity
     private TodoListViewModel mTodoListViewModel;
     private TodoFragment mFragment;
     private ActivityTodoListBinding mBinding;
+
     LifecycleRegistry mLifecycleRegistry = new LifecycleRegistry(this);
 
     @Override
@@ -67,6 +70,16 @@ public class TodoTodoListActivity extends AppCompatActivity
             getSupportFragmentManager().beginTransaction().add(R.id.container, mFragment).commit();
         }
 
+
+        IntentFilter intentFilter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+        getLifecycle().addObserver(new BroadCastReceiverLifecyle(this, getLifecycle(), intentFilter){
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                Snackbar.make(mBinding.getRoot(), "Network Changed!", Snackbar.LENGTH_SHORT).show();
+//                Toast.makeText(context, "network changed!", Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 
     @Override
@@ -90,5 +103,6 @@ public class TodoTodoListActivity extends AppCompatActivity
 
         return super.onOptionsItemSelected(item);
     }
+
 
 }
