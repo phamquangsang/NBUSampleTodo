@@ -41,8 +41,8 @@ public class TodoRepo implements DataSource{
 
     //fetching list todo async
     @Override
-    public void getListTodo(MutableLiveData<List<Todo>> listTodo){
-        mFirebaseDataSource.getListTodo(listTodo);
+    public void getListTodo(MutableLiveData<List<Todo>> listTodo, boolean forceRefresh, @Nullable CompleteCallback completeCallback){
+        mFirebaseDataSource.getListTodo(listTodo, forceRefresh, completeCallback);
     }
 
     @Override

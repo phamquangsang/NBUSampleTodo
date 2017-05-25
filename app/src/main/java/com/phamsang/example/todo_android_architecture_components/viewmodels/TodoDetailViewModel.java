@@ -4,9 +4,11 @@ import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
+import android.arch.lifecycle.ViewModel;
 import android.support.annotation.Nullable;
 
 import com.phamsang.example.todo_android_architecture_components.DaggerApplicationComponent;
+import com.phamsang.example.todo_android_architecture_components.TodoApplication;
 import com.phamsang.example.todo_android_architecture_components.models.Todo;
 import com.phamsang.example.todo_android_architecture_components.modules.AppModule;
 import com.phamsang.example.todo_android_architecture_components.modules.TodoRepoModule;
@@ -14,7 +16,7 @@ import com.phamsang.example.todo_android_architecture_components.repo.TodoRepo;
 
 import javax.inject.Inject;
 
-public class TodoDetailViewModel extends AndroidViewModel {
+public class TodoDetailViewModel extends ViewModel {
 
     private MutableLiveData<Todo> mTodo;
 
@@ -25,10 +27,9 @@ public class TodoDetailViewModel extends AndroidViewModel {
     @Inject
     TodoRepo mTodoRepo;
 
-    public TodoDetailViewModel(Application application) {
-        super(application);
-        DaggerApplicationComponent.builder().appModule(new AppModule(application)).
-                todoRepoModule(new TodoRepoModule()).build().inject(this);
+    public TodoDetailViewModel() {
+        super();
+        TodoApplication.getApplicationComponentInstance().inject(this);
     }
 
     public void initTodoId(@Nullable String todoId){

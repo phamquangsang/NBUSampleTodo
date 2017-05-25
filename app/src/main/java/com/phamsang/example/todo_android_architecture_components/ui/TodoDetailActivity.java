@@ -62,10 +62,16 @@ public class TodoDetailActivity extends AppCompatActivity implements LifecycleRe
                 mBinding.container.setTodo(todo);
             }
         });
+
+        final String[] colorArray = getResources().getStringArray(R.array.color_list);
         mViewModel.getColorString().observe(this, new Observer<String>() {
             @Override
             public void onChanged(@Nullable String color) {
-                mBinding.getRoot().setBackgroundColor(Color.parseColor(color));
+                if(color!=null){
+                    mBinding.getRoot().setBackgroundColor(Color.parseColor(color));
+                }else{
+                    mViewModel.initColor(colorArray[0]);
+                }
             }
         });
 

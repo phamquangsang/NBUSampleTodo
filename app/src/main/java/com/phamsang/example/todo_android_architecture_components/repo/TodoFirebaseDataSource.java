@@ -51,7 +51,7 @@ public class TodoFirebaseDataSource implements DataSource {
     }
 
     @Override
-    public void getListTodo(final MutableLiveData<List<Todo>> todoList){
+    public void getListTodo(final MutableLiveData<List<Todo>> todoList, boolean forceRefresh,final @Nullable CompleteCallback completeCallback){
 
         mGetListTodoValueListener = new ValueEventListener() {
             @Override
@@ -63,16 +63,22 @@ public class TodoFirebaseDataSource implements DataSource {
                     list.add(todo);
                 }
                 todoList.setValue(list);
+
+                if(completeCallback!=null){
+                    completeCallback.onSuccess();
+                }
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
+                if(completeCallback!=null){
+                    completeCallback.onFailure(databaseError.toException());
+                }
             }
         };
         mGetListTodoReference = FirebaseDatabase.getInstance().getReference()
                 .child("todos");
-        mGetListTodoReference.addValueEventListener(mGetListTodoValueListener);
+        mGetListTodoReference.addListenerForSingleValueEvent(mGetListTodoValueListener);
     }
 
     @Override

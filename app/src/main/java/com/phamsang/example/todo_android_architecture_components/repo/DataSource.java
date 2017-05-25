@@ -11,7 +11,7 @@ public interface DataSource {
 
     void addTodo(Todo todo,@Nullable CompleteCallback completeCallback);
 
-    void getListTodo(MutableLiveData<List<Todo>> listTodo);
+    void getListTodo(MutableLiveData<List<Todo>> listTodo, boolean forceRefresh, @Nullable CompleteCallback completeCallback);
 
     void getTodo(String todoId, MutableLiveData<Todo> liveTodo);
 

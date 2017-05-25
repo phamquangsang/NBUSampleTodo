@@ -75,10 +75,6 @@ public class TodoFragment extends LifecycleFragment {
         super.onActivityCreated(savedInstanceState);
         mTodoViewModel = ViewModelProviders.of(getActivity()).get(TodoListViewModel.class);
 
-        if(savedInstanceState == null){
-            mTodoViewModel.setLoading(true);
-        }
-
         mListener = new OnTodoListInteract() {
             @Override
             public void onTodoClicked(Todo item) {
@@ -98,13 +94,12 @@ public class TodoFragment extends LifecycleFragment {
                 mTodoViewModel.updateTodo(item);
             }
         };
-        mTodoViewModel.getTodoList().observe(this, new Observer<List<Todo>>() {
+        mTodoViewModel.getTodoList(false).observe(this, new Observer<List<Todo>>() {
             @Override
             public void onChanged(@Nullable List<Todo> todos) {
                 if(todos == null){
                     return;
                 }
-                mTodoViewModel.setLoading(false);
                 mBinding.list.setAdapter(new TodoAdapter(todos, mListener));
             }
         });

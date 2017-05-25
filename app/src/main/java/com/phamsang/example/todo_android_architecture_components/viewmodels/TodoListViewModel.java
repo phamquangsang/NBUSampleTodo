@@ -4,9 +4,11 @@ import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
+import android.arch.lifecycle.ViewModel;
 import android.util.Log;
 
 import com.phamsang.example.todo_android_architecture_components.DaggerApplicationComponent;
+import com.phamsang.example.todo_android_architecture_components.TodoApplication;
 import com.phamsang.example.todo_android_architecture_components.models.Todo;
 import com.phamsang.example.todo_android_architecture_components.modules.AppModule;
 import com.phamsang.example.todo_android_architecture_components.modules.TodoRepoModule;
@@ -17,11 +19,11 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-public class TodoListViewModel extends AndroidViewModel {
+public class TodoListViewModel extends ViewModel {
 
     private static final String TAG = TodoListViewModel.class.getSimpleName();
 
-    private MutableLiveData<List<Todo>> mTodoList;
+    private MutableLiveData<List<Todo>> mTodoList = new MutableLiveData<>();
 
     private MutableLiveData<Boolean> mIsLoading = new MutableLiveData<>();
 
@@ -29,20 +31,29 @@ public class TodoListViewModel extends AndroidViewModel {
     TodoRepo mTodoRepo;
 
 
-    public TodoListViewModel(Application application) {
-        super(application);
-        DaggerApplicationComponent.builder()
-                .appModule(new AppModule(application))
-                .todoRepoModule(new TodoRepoModule())
-                .build()
-                .inject(this);
+
+    public TodoListViewModel(){
+        super();
+        TodoApplication.getApplicationComponentInstance().inject(this);
     }
 
 
-    public LiveData<List<Todo>> getTodoList() {
-        if(mTodoList == null){
-            mTodoList = new MutableLiveData<>();
-            mTodoRepo.getListTodo(mTodoList);
+
+    public LiveData<List<Todo>> getTodoList(boolean forceRefresh) {
+        if(mTodoList.getValue() == null || forceRefresh){
+            mIsLoading.setValue(true);
+
+            mTodoRepo.getListTodo(mTodoList, forceRefresh, new DataSource.CompleteCallback() {
+                @Override
+                public void onSuccess() {
+                    mIsLoading.setValue(false);
+                }
+
+                @Override
+                public void onFailure(Throwable t) {
+                    mIsLoading.setValue(false);
+                }
+            });
         }
         return mTodoList;
     }

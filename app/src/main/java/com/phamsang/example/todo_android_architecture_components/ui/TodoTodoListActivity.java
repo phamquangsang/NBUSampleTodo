@@ -12,6 +12,7 @@ import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.Menu;
@@ -23,7 +24,7 @@ import com.phamsang.example.todo_android_architecture_components.lifecycleawarec
 import com.phamsang.example.todo_android_architecture_components.viewmodels.TodoListViewModel;
 
 public class TodoTodoListActivity extends AppCompatActivity
-        implements LifecycleRegistryOwner{
+        implements View.OnClickListener, LifecycleRegistryOwner{
 
     private static final String TAG = TodoTodoListActivity.class.getSimpleName();
     private TodoListViewModel mTodoListViewModel;
@@ -57,11 +58,12 @@ public class TodoTodoListActivity extends AppCompatActivity
         });
 
 
-        mBinding.fab.setOnClickListener(new View.OnClickListener() {
+        mBinding.fab.setOnClickListener(this);
+
+        mBinding.swipeToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
-            public void onClick(View view) {
-                Intent i = TodoDetailActivity.getIntent(TodoTodoListActivity.this, null);
-                startActivity(i);
+            public void onRefresh() {
+                mTodoListViewModel.getTodoList(true);
             }
         });
 
@@ -76,7 +78,6 @@ public class TodoTodoListActivity extends AppCompatActivity
             @Override
             public void onReceive(Context context, Intent intent) {
                 Snackbar.make(mBinding.getRoot(), "Network Changed!", Snackbar.LENGTH_SHORT).show();
-//                Toast.makeText(context, "network changed!", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -104,5 +105,13 @@ public class TodoTodoListActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.fab:
+                Intent i = TodoDetailActivity.getIntent(TodoTodoListActivity.this, null);
+                startActivity(i);
+                break;
+        }
+    }
 }
