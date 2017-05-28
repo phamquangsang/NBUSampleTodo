@@ -74,12 +74,13 @@ public class TodoTodoListActivity extends AppCompatActivity
 
 
         IntentFilter intentFilter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
-        getLifecycle().addObserver(new BroadCastReceiverLifecyle(this, getLifecycle(), intentFilter){
+
+        BroadCastReceiverLifecyle broadCastReceiver = new BroadCastReceiverLifecyle(this, getLifecycle(), intentFilter) {
             @Override
             public void onReceive(Context context, Intent intent) {
                 Snackbar.make(mBinding.getRoot(), "Network Changed!", Snackbar.LENGTH_SHORT).show();
             }
-        });
+        };
 
     }
 

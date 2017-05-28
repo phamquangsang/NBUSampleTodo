@@ -21,6 +21,7 @@ public abstract class BroadCastReceiverLifecyle extends BroadcastReceiver implem
         mContext = c;
         mLifeCycle = lifeCycle;
         mIntentFilter = intentFilter;
+        lifeCycle.addObserver(this);
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
