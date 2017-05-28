@@ -32,6 +32,7 @@
             android:name=".ui.DemoDetailTodoActivity"
             android:label="@string/title_activity_demo_detail_todo"
             android:parentActivityName=".ui.TodoTodoListActivity"
+            android:exported="true"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

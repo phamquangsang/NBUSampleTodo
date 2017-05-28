@@ -1,61 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools">
+<layout>
 
     <data>
         <variable
             name="todo"
             type="com.phamsang.example.todo_android_architecture_components.models.Todo"/>
-
-        <variable
-            name="callback"
-            type="com.phamsang.example.todo_android_architecture_components.ui.TodoFragment.OnTodoListInteract"/>
-        <import type="android.graphics.Color"/>
     </data>
 
     <LinearLayout
+        android:orientation="vertical"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="@{()->callback.onTodoClicked(todo)}"
-        android:background="@{Color.parseColor(todo.color)}"
-        android:orientation="vertical">
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:context="com.phamsang.example.todo_android_architecture_components.ui.TodoDetailActivity"
+        tools:showIn="@layout/activity_todo_detail">
 
-        <TextView
-            tools:text="Title todo"
+        <EditText
             android:id="@+id/title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/text_margin"
             android:text="@{todo.title}"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"/>
+            android:padding="8dp"
+            android:hint="Title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
-        <TextView
-            tools:text="content todo"
-            android:id="@+id/content"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/text_margin"
+        <EditText
             android:text="@{todo.content}"
-            android:textAppearance="?attr/textAppearanceListItem"/>
+            android:id="@+id/content"
+            android:hint="Content..."
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
-        <LinearLayout
-            android:orientation="horizontal"
+        <CheckBox
+            android:id="@+id/checkbox"
+            android:checked="@{todo.done}"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-            <CheckBox
-                android:checked="@{todo.done}"
-                android:onClick="@{()->callback.onCheckboxClicked(todo)}"
-                android:id="@+id/checkbox"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-            <ImageView
-                app:srcCompat="@drawable/ic_clear_black_24dp"
-                android:onClick="@{()->callback.onDeleteClicked(todo)}"
-                android:layout_width="40dp"
-                android:layout_height="40dp"/>
-
-        </LinearLayout>
+            android:layout_height="wrap_content"/>
 
 
     </LinearLayout>
