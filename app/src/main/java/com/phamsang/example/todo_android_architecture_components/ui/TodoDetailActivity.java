@@ -58,7 +58,6 @@ public class TodoDetailActivity extends AppCompatActivity implements LifecycleRe
         mViewModel.getTodo().observe(this, new Observer<Todo>() {
             @Override
             public void onChanged(@Nullable Todo todo) {
-                mBinding.setTodo(todo);
                 mBinding.container.setTodo(todo);
             }
         });

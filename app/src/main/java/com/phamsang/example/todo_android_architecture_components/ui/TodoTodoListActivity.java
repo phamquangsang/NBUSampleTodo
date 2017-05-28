@@ -110,7 +110,8 @@ public class TodoTodoListActivity extends AppCompatActivity
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.fab:
-                Intent i = DemoDetailTodoActivity.getIntent(TodoTodoListActivity.this, null);
+//                Intent i = DemoDetailTodoActivity.getIntent(TodoTodoListActivity.this, null);
+                Intent i = TodoDetailActivity.getIntent(this, null);
                 startActivity(i);
                 break;
         }

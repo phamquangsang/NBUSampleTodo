@@ -49,6 +49,7 @@ public class DemoDetailTodoActivity extends LifecycleActivity {
             @Override
             public void onChanged(@Nullable Todo todo) {
                 if(todo!=null){
+                    //update UI
                     mBinding.content.setTodo(todo);
                 }
             }

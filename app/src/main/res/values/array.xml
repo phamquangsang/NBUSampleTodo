@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="color_list">
+        <item>#FFFFFF</item>
         <item>#f44336</item>
         <item>#ab47bc</item>
         <item>#7e57c2</item>

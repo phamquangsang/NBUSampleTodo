@@ -36,6 +36,10 @@ public class Todo extends BaseObservable {
         notifyChange();
     }
 
+    public Todo() {
+        color = "#FFFFFF";
+    }
+
     @Bindable
     public String getContent() {
         return content;
