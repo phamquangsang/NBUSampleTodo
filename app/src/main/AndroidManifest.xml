@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.phamsang.example.todo_android_architecture_components">
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.INTERNET"/>
+
     <application
         android:name=".TodoApplication"
         android:allowBackup="true"
@@ -25,6 +27,15 @@
             android:name=".ui.TodoDetailActivity"
             android:label="@string/title_activity_todo_detail"
             android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+        <activity
+            android:name=".ui.DemoDetailTodoActivity"
+            android:label="@string/title_activity_demo_detail_todo"
+            android:parentActivityName=".ui.TodoTodoListActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.phamsang.example.todo_android_architecture_components.ui.TodoTodoListActivity"/>
         </activity>
     </application>
 
