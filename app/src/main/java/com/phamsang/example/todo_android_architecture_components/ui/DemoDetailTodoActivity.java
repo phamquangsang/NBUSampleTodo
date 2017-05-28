@@ -7,6 +7,8 @@ import android.arch.lifecycle.LifecycleRegistryOwner;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModel;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
@@ -24,12 +26,9 @@ import com.phamsang.example.todo_android_architecture_components.R;
 import com.phamsang.example.todo_android_architecture_components.databinding.ActivityDemoDetailTodoBinding;
 import com.phamsang.example.todo_android_architecture_components.models.Todo;
 import com.phamsang.example.todo_android_architecture_components.repo.TodoRepo;
+import com.phamsang.example.todo_android_architecture_components.viewmodels.DemoDetailViewModel;
 
 public class DemoDetailTodoActivity extends LifecycleActivity {
-
-
-    MutableLiveData<Todo> mTodo = new MutableLiveData<>();
-
 
     private static final String ARG_TODO_ID = "arg-todo-id";
     private ActivityDemoDetailTodoBinding mBinding;
@@ -40,25 +39,15 @@ public class DemoDetailTodoActivity extends LifecycleActivity {
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_demo_detail_todo);
         registerListener();
 
-        String todoId = "fakeTodoId";
-        if(todoId != null){
-            fetchTodo(todoId, new Response<Todo>() {
-                @Override
-                public void onSuccess(Todo data) {
-                    mTodo.setValue(data);
-                    mBinding.getRoot().setBackgroundColor(Color.parseColor(data.getColor()));
-                }
 
-                @Override
-                public void onFailed(Throwable error) {
-                    //show error
-                }
-            });
-        }
-        mTodo.observe(this, new Observer<Todo>() {
+
+        String todoId = "fakeTodoId";
+
+        DemoDetailViewModel viewModel = ViewModelProviders.of(this).get(DemoDetailViewModel.class);
+        viewModel.fetchTodo(todoId);
+        viewModel.getTodo().observe(this, new Observer<Todo>() {
             @Override
             public void onChanged(@Nullable Todo todo) {
-                //todo update UI
                 if(todo!=null){
                     mBinding.content.setTodo(todo);
                 }
@@ -66,17 +55,6 @@ public class DemoDetailTodoActivity extends LifecycleActivity {
         });
     }
 
-    private void fetchTodo(String todoId, Response<Todo> callback) {
-        Todo fakeTodo = new Todo();
-        fakeTodo.setContent("Fake content");
-        fakeTodo.setTitle("fake title");
-        fakeTodo.setDone(true);
-        fakeTodo.setId(String.valueOf(System.currentTimeMillis()));
-        fakeTodo.setColor("green");
-        callback.onSuccess(fakeTodo);
-
-        //todo fetch todoId;
-    }
 
     private void registerListener() {
         mBinding.fab.setOnClickListener(new View.OnClickListener() {
@@ -94,9 +72,5 @@ public class DemoDetailTodoActivity extends LifecycleActivity {
         return intent;
     }
 
-    //this is faking interface simulate loading data asynchronous
-    interface Response<T>{
-        void onSuccess(T data);
-        void onFailed(Throwable error);
-    }
+
 }
