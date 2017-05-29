@@ -1,6 +1,8 @@
 package com.phamsang.example.todo_android_architecture_components.viewmodels;
 
 
+import android.arch.lifecycle.LifecycleRegistry;
+import android.arch.lifecycle.LifecycleRegistryOwner;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 

@@ -12,6 +12,7 @@ import com.phamsang.example.todo_android_architecture_components.TodoApplication
 import com.phamsang.example.todo_android_architecture_components.models.Todo;
 import com.phamsang.example.todo_android_architecture_components.modules.AppModule;
 import com.phamsang.example.todo_android_architecture_components.modules.TodoRepoModule;
+import com.phamsang.example.todo_android_architecture_components.repo.DataSource;
 import com.phamsang.example.todo_android_architecture_components.repo.TodoRepo;
 
 import javax.inject.Inject;
@@ -25,7 +26,7 @@ public class TodoDetailViewModel extends ViewModel {
     private String mTodoId;
 
     @Inject
-    TodoRepo mTodoRepo;
+    DataSource mTodoRepo;
 
     public TodoDetailViewModel() {
         super();

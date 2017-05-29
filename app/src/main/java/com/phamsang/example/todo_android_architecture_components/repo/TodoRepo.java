@@ -15,31 +15,12 @@ public class TodoRepo implements DataSource{
 
     private TodoFirebaseDataSource mFirebaseDataSource;
 
-    public static final MutableLiveData<List<Todo>> sFakeListTodo;
-
-    static{
-        sFakeListTodo = new MutableLiveData<>();
-        List<Todo> todoList = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            Todo todo = new Todo();
-            todo.setId(String.valueOf(i));
-            todo.setContent("content " + i);
-            todo.setTitle("title: " +i);
-            todoList.add(todo);
-        }
-        sFakeListTodo.setValue(todoList);
-    }
 
 
     public TodoRepo(Application c) {
         mFirebaseDataSource = new TodoFirebaseDataSource();
     }
 
-    public LiveData<List<Todo>> getFakeListTodo(){
-        return sFakeListTodo;
-    }
-
-    //fetching list todo async
     @Override
     public void getListTodo(MutableLiveData<List<Todo>> listTodo, boolean forceRefresh, @Nullable CompleteCallback completeCallback){
         mFirebaseDataSource.getListTodo(listTodo, forceRefresh, completeCallback);

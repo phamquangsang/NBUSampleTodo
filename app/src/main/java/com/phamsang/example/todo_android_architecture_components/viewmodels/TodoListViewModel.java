@@ -28,7 +28,7 @@ public class TodoListViewModel extends ViewModel {
     private MutableLiveData<Boolean> mIsLoading = new MutableLiveData<>();
 
     @Inject
-    TodoRepo mTodoRepo;
+    DataSource mTodoRepo;
 
 
 
