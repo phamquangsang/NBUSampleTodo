@@ -19,7 +19,9 @@ import com.phamsang.example.todo_android_architecture_components.databinding.Fra
 import com.phamsang.example.todo_android_architecture_components.models.Todo;
 import com.phamsang.example.todo_android_architecture_components.viewmodels.TodoListViewModel;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 
 public class TodoFragment extends LifecycleFragment {
@@ -29,6 +31,7 @@ public class TodoFragment extends LifecycleFragment {
 
     private FragmentTodoListBinding mBinding;
     private OnTodoListInteract mListener;
+    private TodoAdapter mAdapter;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -94,6 +97,8 @@ public class TodoFragment extends LifecycleFragment {
                 mTodoViewModel.updateTodo(item);
             }
         };
+        mAdapter = new TodoAdapter(new ArrayList<>(), mListener);
+        mBinding.list.setAdapter(mAdapter);
         mTodoViewModel.getTodoList(false).observe(this, new Observer<List<Todo>>() {
             @Override
             public void onChanged(@Nullable List<Todo> todos) {
@@ -103,6 +108,11 @@ public class TodoFragment extends LifecycleFragment {
                 mBinding.list.setAdapter(new TodoAdapter(todos, mListener));
             }
         });
+//        mTodoViewModel.getTodoListSync().observe(this, stringTodoMap -> {
+//            List<Todo> todos = new ArrayList<>();
+//            todos.addAll(stringTodoMap.values());
+//            mAdapter.setData(todos);
+//        });
     }
 
 }

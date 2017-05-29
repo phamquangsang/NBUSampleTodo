@@ -10,6 +10,7 @@ import com.phamsang.example.todo_android_architecture_components.models.Todo;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class TodoRepo implements DataSource{
 
@@ -64,5 +65,10 @@ public class TodoRepo implements DataSource{
     @Override
     public void deleteTodo(String todoId, CompleteCallback completeCallback) {
         mFirebaseDataSource.deleteTodo(todoId, completeCallback);
+    }
+
+    @Override
+    public LiveData<Map<String, Todo>> getListTodoSync(){
+        return mFirebaseDataSource.getListTodoSync();
     }
 }

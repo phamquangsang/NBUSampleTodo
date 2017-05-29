@@ -42,6 +42,12 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.ViewHolder> {
         return mValues.size();
     }
 
+    public void setData(List<Todo> data) {
+        mValues.clear();
+        mValues.addAll(data);
+        notifyDataSetChanged();
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder {
         private final ViewDataBinding mBinding;
         public Todo mItem;

@@ -16,6 +16,7 @@ import com.phamsang.example.todo_android_architecture_components.repo.DataSource
 import com.phamsang.example.todo_android_architecture_components.repo.TodoRepo;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -56,6 +57,10 @@ public class TodoListViewModel extends ViewModel {
             });
         }
         return mTodoList;
+    }
+
+    public LiveData<Map<String, Todo>> getTodoListSync(){
+        return mTodoRepo.getListTodoSync();
     }
 
     public LiveData<Boolean> isLoading() {

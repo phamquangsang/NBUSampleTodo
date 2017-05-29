@@ -1,5 +1,6 @@
 package com.phamsang.example.todo_android_architecture_components.repo;
 
+import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -8,11 +9,14 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
+import com.phamsang.example.todo_android_architecture_components.lifecycleawarecomponent.FirebaseLiveData;
 import com.phamsang.example.todo_android_architecture_components.models.Todo;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class TodoFirebaseDataSource implements DataSource {
 
@@ -79,6 +83,13 @@ public class TodoFirebaseDataSource implements DataSource {
         mGetListTodoReference = FirebaseDatabase.getInstance().getReference()
                 .child("todos");
         mGetListTodoReference.addListenerForSingleValueEvent(mGetListTodoValueListener);
+    }
+
+    @Override
+    public LiveData<Map<String, Todo>> getListTodoSync(){
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference()
+                .child("todos");
+        return new FirebaseLiveData<Map<String,Todo>>(ref, new GenericTypeIndicator<Map<String, Todo>>() {});
     }
 
     @Override

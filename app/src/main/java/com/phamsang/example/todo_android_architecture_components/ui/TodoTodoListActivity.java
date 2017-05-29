@@ -27,8 +27,11 @@ public class TodoTodoListActivity extends AppCompatActivity
         implements View.OnClickListener, LifecycleRegistryOwner{
 
     private static final String TAG = TodoTodoListActivity.class.getSimpleName();
+
     private TodoListViewModel mTodoListViewModel;
+
     private TodoFragment mFragment;
+
     private ActivityTodoListBinding mBinding;
 
     LifecycleRegistry mLifecycleRegistry = new LifecycleRegistry(this);

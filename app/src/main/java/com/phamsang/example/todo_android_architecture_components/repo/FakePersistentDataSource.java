@@ -1,6 +1,7 @@
 package com.phamsang.example.todo_android_architecture_components.repo;
 
 import android.app.Application;
+import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -10,6 +11,7 @@ import com.phamsang.example.todo_android_architecture_components.models.Todo;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 public class FakePersistentDataSource implements DataSource {
@@ -111,5 +113,10 @@ public class FakePersistentDataSource implements DataSource {
 
     @Override
     public void onCleared() {
+    }
+
+    @Override
+    public LiveData<Map<String, Todo>> getListTodoSync() {
+        return null;
     }
 }
